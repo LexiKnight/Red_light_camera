@@ -1,36 +1,87 @@
 ---
-title: "Annual Ticket Charges for Running Red Lights in the City of Toronto 2007 Through 2022"
-subtitle: "My subtitle if needed"
+title: "Exploring Red Light Camera Annual Charges in the City of Toronto Between the Years of 2012 and 2022."
+subtitle: "Looking at Five Busy Intersections in Toronto"
 author: 
   - Lexi Knight
-thanks: "Code and data are available at: LINK."
+thanks: "Code and data are available at: https://github.com/LexiKnight/Red_light_camera.git"
 date: today
 date-format: long
-abstract: "First sentence. Second sentence. Third sentence. Fourth sentence."
+abstract: " A charge for running a red light in Ontario cost $325. Using data from five different intersections in Toronto, I looked at the number of charges for running red lights over a ten year period. Despite the cost of the ticket, there was an upward trend in the number of charges at the five locations in the city of Toronto. These findings suggest red light camera charges do not necessarily stop drivers from running lights in busy intersections in the City of Toronto."
 format: pdf
 number-sections: true
 bibliography: references.bib
 ---
 
 ```{r}
-#| include: false
-#| warning: false
-#| message: false
+# #| include: false
+# #| warning: false
+# #| message: false
 
+# install.packages("usethis")
+# install.packages("gitcreds")
+# install.packages("tidyverse")
+# install.packages("janitor")
+# install.packages("readxl")
+# install.packages("red_light_camera_data.")
 library(tidyverse)
-library(palmerpenguins)
+library(usethis)
+library(gitcreds)
+library(janitor)
+library(dplyr)
+library(readxl)
+library(ggplot2)
+library(palmerpenguins) # take out before submit
+
+
 ```
 
 
 # Introduction
+In this paper I looked at how the red light charges in the City of Toronto has changed throughout the years. More specifically, the dataset used in opentorontodata included charges for over 300 intersections throughout 2007 to 2022. I cleaned up the dataset to  specifically look at the top 5 intersections during the most recent 10 years of data, namely 2012 through 2022. I construct a model to illustrate drivers that run red lights by the number of charges per year for specific intersections in the City. I find  the average charges for the five intersections in 2022 is ????? with a high of ???. Additionally in diving deeper into the annual charges for one particular location, there is an upward trend in the last ??? years. These five intersections were spread out with two a 1km radius of Lake Ontario and the other three within a ten km radius of York University. Future work could look at several intersections that are closer together, in a more confined area to allow for more understanding of which intersections drivers are more likely to run red lights. 
+
+The remainder of this paper is structured as follows: Section 2 discusses the data, Section 3 discusses the model, Section 4 presents the results and lastly Section 5 dicussess my findings as well as areas of weaknesses and improvements. 
+
+# Research question is how the red light charges have changed in the last year. 
 
 You can and should cross-reference sections and sub-sections. 
-
 The remainder of this paper is structured as follows. @sec-data....
 
 
 
 # Data {#sec-data}
+
+I created a dataset with three variables namely intersection, year and the number of charges for a particular location. 
+In intersection it will a alphabetical value of which will be one of the five; Richmond St. E & Parliment St., Lake Shore Blvd. & York St., Steeles Ave. & Carpenter Rd., Steeles Ave. & Hilda Ave., Albion Rd. & Silverstone Dr. 
+In year we are looking for at ten possible numerical values between  2012 and 2022.
+In charges we are looking for a numerical value greater than or equal to zero.
+
+I chose to only look at five intersections over a ten year period of 2012 to 2022. 
+
+
+```{r}
+### Stimulate data ###
+
+# only interested in rows 6 thru 10. columns of interest are A through Q
+table1 <- as.table(red_light_camera_data[3:7, -c(-1:-13)])
+# this will keep rows 3 to 7, thus first 5 locations
+# this will only include years 2012 to 2022
+
+str(red_light_camera_data)
+
+# table of summary statistics 
+# can use a table to summarize the dataset 
+# every variable should be shown in a graph and summarized in a table
+# 
+
+
+# figures and tables to be cross-referenced in text ex. figure 1 shows, table 1 describes...
+# for every graph and table, need to be accompanying text that describes their main aspects and adds additional detail. 
+
+
+# captions are b/w the text and the graph or table. captions to be infomrative and self-contained. make central message of figure clear, should be redundancy. 
+
+```
+
 
 Some of our data is of penguins (@fig-bills), from @palmerpenguins.
 
@@ -75,9 +126,22 @@ Talk way more about it.
 
 # Model
 
-The goal of our modelling strategy is twofold. Firstly,...
 
-Here we briefly describe the Bayesian analysis model used to investigate... Background details and diagnostics are included in [Appendix -@sec-model-details].
+Here we breifly describe the Red Light Data model used to investigate two aspects of the charges. Firstly, it is to explore how the number of charges varies over the different intersections, particularly as two are located near Lake Ontario whereas the other three are up North by York University. Secondly, in looking at one intersection in depth, namely Steeles Ave and Carpender Rd, to explore how the number of charges given vary over a ten year strech, 2012 through 2022.
+
+# specify the equations that describe the model used and explain their components w/ plain language and cross-references
+# start section by writting out mode, explaining it and justifying it. can add backgroung info if needed. 
+# after specifying the model with appropriate mathematical notation and cross-referencing it, the components of the model should then be defined and explained. convincing reader model well chosen and enhances credibility of the reader
+# model variables should correspond to those that were discussed in the data section, clear link b/w the two sections. 
+# close model section with discussion of assumptions underpinning the model. brief discussion of alternative models/variants. Clearly explain strengths and weaknesses.
+
+# evidence of model validation and checking, model convergence and or diganostic issues ( some of which perhaps more appropraite in appendix)
+
+# some papers do not include statistical model and instead replace section by "methodology" section - describe simulation conducted or contain more general details about the approach. 
+
+
+
+Background details and diagnostics are included in [Appendix -@sec-model-details].
 
 ## Model set-up
 
@@ -103,6 +167,31 @@ We can use maths by including latex between dollar signs, for instance $\theta$.
 
 
 # Results
+
+# clearly communicate outcomes of the analysis and w/out too much focus on the discussion of implications. 
+# section requires summary statistics, tables, graphs - each cross referenced  and test associated with them that details what is seen in each figure. 
+# what results are rather than what results mean
+# tables of graphs of coefficient estimates based on the modeling. discuss features of the estimates and differences b/w the models 
+# amount of test = amount space table/graph take up
+
+```{r}
+# want to make a graph where location on the x axis and number of 
+# total charges in 2022 on y axis. 
+
+summary(red_light_camera_data)
+str(red_light_camera_data)
+#plot(data)
+ggplot(red_light_camera_data, aes(x = location, fill = number of/ charges)) + geom_bar()
+#red_light_camera_data <- read.table()
+
+
+
+# want to make a graph of one particular location where year is on the x axis and number of charges on y axis.
+
+# I combined the total number of charges throughout the ten years and plotted those against the intersection to generate a graph
+
+```
+
 
 Our results are summarized in @tbl-modelresults.
 
@@ -139,77 +228,36 @@ modelsummary::modelsummary(
 
 # Discussion
 
+# breif summary of what was done in the paper
+# software used to run the model
+
+# 2-3 subsections devoted to key things learned about the world from the paper. justify / detail the implications of the story being told in the paper. explain what we learn from the grpahs/tables
+
 ## First discussion point {#sec-first-point}
 
-If my paper were 10 pages, then should be be at least 2.5 pages. The discussion is a chance to show off what you know and what you learnt from all this. 
+Note did not use data for the years 2007 through 2010 as I wanted ot look specifically at a ten year range. Additonally, the dataset downloaded from opendatatoronto had minimal data for ten consecutive years, limiting my options. Moreover, locations were roughly spread out into two regions, downtown 1km away from Lake Ontario and North about 9km away from York University. The reason for this was to get data on a larger area. 
 
 ## Second discussion point
 
 ## Third discussion point
 
-## Weaknesses and next steps
 
-Weaknesses and next steps should also be included.
+## Weaknesses and next steps
+I should note that the data only includes drivers that did get charged for running the light and thus there could be data missing for those drivers that did not get charged. 
+Future work could look at for example intersections specifally around the university of toronto as this would implicate safety for these students. However, more and consistent data is needed as mentioned above for particular intersections and to be able to accurately compare data over several years. 
+# data used, approach, model
+# model - aspects that would affect the findings
+# what there is left to learn and how future work could proceed. 
+# discussion is 25% of the entire paper
+
 
 \newpage
 
 \appendix
 
 # Appendix {-}
-
-
-# Additional data details
-
-# Model details {#sec-model-details}
-
-## Posterior predictive check
-
-In @fig-ppcheckandposteriorvsprior-1 we implement a posterior predictive check. This shows...
-
-In @fig-ppcheckandposteriorvsprior-2 we compare the posterior with the prior. This shows... 
-
-```{r}
-#| eval: true
-#| echo: false
-#| message: false
-#| warning: false
-#| label: fig-ppcheckandposteriorvsprior
-#| layout-ncol: 2
-#| fig-cap: "Examining how the model fits, and is affected by, the data"
-#| fig-subcap: ["Posterior prediction check", "Comparing the posterior with the prior"]
-
-pp_check(first_model) +
-  theme_classic() +
-  theme(legend.position = "bottom")
-
-posterior_vs_prior(first_model) +
-  theme_minimal() +
-  scale_color_brewer(palette = "Set1") +
-  theme(legend.position = "bottom") +
-  coord_flip()
-```
-
-## Diagnostics
-
-@fig-stanareyouokay-1 is a trace plot. It shows... This suggests...
-
-@fig-stanareyouokay-2 is a Rhat plot. It shows... This suggests...
-
-```{r}
-#| echo: false
-#| eval: true
-#| message: false
-#| warning: false
-#| label: fig-stanareyouokay
-#| fig-cap: "Checking the convergence of the MCMC algorithm"
-#| fig-subcap: ["Trace plot", "Rhat plot"]
-#| layout-ncol: 2
-
-plot(first_model, "trace")
-
-plot(first_model, "rhat")
-```
-
+# This is where show all the data
+# This is where include background details and diagnostics
 
 
 \newpage
