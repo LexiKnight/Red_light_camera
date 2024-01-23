@@ -95,13 +95,6 @@ cutie
 bar1 <- table1[,c(1,13)]
 ggplot(table1 = bar1$Location) + geom_col(aes(x= table1$Location, y = table1$Total_Charges)) +labs(title = "Graph 1: Location vs. Total Changes", y = "Total Charges", x = "Location") 
 
-# Here, trying to make x axies either angled or perpendicular so as to be readable.
-
-#bar1 = go.Figure(my_fig)
-#bar1.update_xaxes)tickangle=45)
-#bar1.show()
-
-#+(theme(axis.text.x = element_text(angle = 45, vjust =1, hjust = 1))
 
 ```
 
