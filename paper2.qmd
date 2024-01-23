@@ -9,7 +9,7 @@ date-format: long
 abstract: "A ticket for running a red light in Ontario cost $325. Using data from five different intersections in Toronto as my sample, I looked at the number of charges issued for running red lights over a ten year period. Despite the cost of the ticket, there is a general trend of an average increase in the number of charges. These findings suggest red light camera charges do not necessarily disincentivize drivers from running lights in busy intersections."
 format: pdf
 number-sections: true
-# bibliography: references.bib
+bibliography: ref.bib
 ---
 
 ```{r}
@@ -20,14 +20,12 @@ number-sections: true
 
 # Install packages
 # install.packages("tidyverse")
-# install.packages("janitor")
 # install.packages("dplyr")
 # install.packages("ggplot2")
 # install.packages("kableExtra")
 
 # Load packages
 library(tidyverse)
-library(janitor)
 library(dplyr)
 library(ggplot2)
 library(kableExtra)
@@ -46,7 +44,7 @@ cleaned_red_light_data <- read.csv("outputs/data/cleaned_red_light_data.csv")
 
 
 # Data {#sec-data}
-I retrieved the data from Open Data Tronto Portal through the library {cite opendatatoronto, Gelfand 2022}. The dataset {cite redlightcameraannualcharges} was used to analyze the intersections with red light cameras across the City of Toronto. After downloading the dataset, I proceeded to the cleaning and analyzing stage with open source staticaically programming language R {cite R, R core team 2022}, using function from tidyverse {cite tidyverse, wickham et al 2019}, dplyer {cite dypler wickham et al 2022}, ggplot2 {cite ggplot2 wickham 2016}, readxl {cite readxl}, janitor {cite janitor firke 2021} and usethis. 
+I retrieved the data from Open Data Tronto Portal through the library @citeOpenDataToronto. The dataset {cite redlightcameraannualcharges} was used to analyze the intersections with red light cameras across the City of Toronto. After downloading the dataset, I proceeded to the cleaning and analyzing stage with open source staticaically programming language R @citeR, using function from tidyverse @citetidyverse, dplyr @citedplyr, ggplot2 @citeggplot2, and kableExtra @citekableExtra.
 
 #TODO: citations!
 
