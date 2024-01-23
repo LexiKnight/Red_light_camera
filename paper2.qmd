@@ -1,0 +1,127 @@
+---
+title: "Exploring Red Light Camera Annual Charges in the City of Toronto Between the Years of 2012 and 2022."
+subtitle: "Looking at Five Busy Intersections in Toronto"
+author: 
+  - Lexi Knight
+thanks: "Code and data are available at: https://github.com/LexiKnight/Red_light_camera.git"
+date: today
+date-format: long
+abstract: "A ticket for running a red light in Ontario cost $325. Using data from five different intersections in Toronto as my sample, I looked at the number of charges issued for running red lights over a ten year period. Despite the cost of the ticket, there is a general trend of an average increase in the number of charges. These findings suggest red light camera charges do not necessarily disincentivize drivers from running lights in busy intersections."
+format: pdf
+number-sections: true
+# bibliography: references.bib
+---
+
+```{r}
+#| message: false
+#| echo: false
+
+### Workspace setup ###
+
+# Install packages
+# install.packages("tidyverse")
+# install.packages("janitor")
+# install.packages("dplyr")
+# install.packages("ggplot2")
+# install.packages("kableExtra")
+
+# Load packages
+library(tidyverse)
+library(janitor)
+library(dplyr)
+library(ggplot2)
+library(kableExtra)
+
+# Read in cleaned data
+cleaned_red_light_data <- read.csv("outputs/data/cleaned_red_light_data.csv")
+
+```
+
+# Introduction
+  In this paper I looked at how charges for running red lights in the City of Toronto have changed throughout the years as well as comparing annual charges at different intersections across the City. These five intersections of interest were spread out; two of which are located a 1km radius of Lake Ontario whereas the other three are located within a ten km radius of York University. This was done to evaluate the different regions of the City and to get an idea about where most charges were issued, downtown or on the outskirts of the city. 
+
+  The remainder of this paper is structured as follows: Section 2 discusses the data, Section 3 discusses the model, Section 4 presents the results and lastly Section 5 discusses my findings as well as areas of weaknesses and improvements. 
+
+#TODO: add paper notes on red light cameras and whether they are efficient in incentivizing drivers to not run red lights - a safety concern. 
+
+
+# Data {#sec-data}
+I retrieved the data from Open Data Tronto Portal through the library {cite opendatatoronto, Gelfand 2022}. The dataset {cite redlightcameraannualcharges} was used to analyze the intersections with red light cameras across the City of Toronto. After downloading the dataset, I proceeded to the cleaning and analyzing stage with open source staticaically programming language R {cite R, R core team 2022}, using function from tidyverse {cite tidyverse, wickham et al 2019}, dplyer {cite dypler wickham et al 2022}, ggplot2 {cite ggplot2 wickham 2016}, readxl {cite readxl}, janitor {cite janitor firke 2021} and usethis. 
+
+#TODO: citations!
+
+  The raw dataset contained over 300 intersections across the years 2007 to 2022. I decided to simplify and isolate five intersections across the City of Toronto. Additionally, I decided to analyze years 2012 to 2022 to allow for a ten year analysis.
+
+  After cleaning the data, I generated Table 1, shown below. 
+Here I briefly describe the Red Light Data model used to investigate two aspects of the ticket charges. Firstly, it is to explore how the charges change from year to year for individual locations. Secondly, I summed up the charges over the ten years and included a total charges column. This allows for comparison of charges at different intersections in the past ten years. The different locations are interesting as two are located near Lake Ontario, within a kilometer namely Richmond street at Parliament Street and Lake Shore Boulevard at York. On the other hand the other three are in North York, about 9 kilometers from York University, namely Steeles Avenue at Carpenter Road, Steeles Avenue at Hilda Avenue and Albion Road at Silverstone Drive. 
+
+  This model assumes North York is considered as part of the City of Toronto. It's important to note that this data includes only when the driver is charged for running a red light and thus may be missing data from instances where the driver gets away without a ticket. 
+
+```{r}
+#| echo: false 
+# code not included in doc
+#| warning: false 
+# no warnings in the doc
+#| message: false 
+# no messages in the doc
+  
+### Stimulate data ###
+table1 <- cleaned_red_light_data
+
+# rename the columns 
+colnames(table1) = c("Location", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022")
+
+# add a column for the sum of charges called Total_Charges  
+table1$Total_Charges <- rowSums(sapply(table1[,2:12],function(x)as.numeric(as.character(x))))
+
+# make table cuter
+cutie <- kable(table1, format = 'latex', booktable = TRUE, caption = 'Total Number of Charges per Year Based on Location') %>% kable_styling(latex_options = 'scale_down')
+cutie
+
+```
+
+# Results
+
+ The outcome of the analysis was to understand how charges for running a red light change every year. I was interested in whether there would be a decrease in charges across all locations because of the $325 fee if you were issued a ticket. I wondered whether proximity to what I consider more downtown Toronto or the CN tower compared to in North York would make a difference as to the number of red light charges given.
+
+```{r}
+#| echo: false 
+# code not included in doc
+#| warning: false 
+# no warnings in the doc
+#| message: false 
+# no messages in the doc
+
+# Want to plot location on x axis and sum charges  on y axis
+# creating meaningful axies names, x is intersection and y is Total Charges
+bar1 <- table1[,c(1,13)]
+ggplot(table1 = bar1$Location) + geom_col(aes(x= table1$Location, y = table1$Total_Charges)) +labs(title = "Graph 1: Location vs. Total Changes", y = "Total Charges", x = "Location") 
+
+# Here, trying to make x axies either angled or perpendicular so as to be readable.
+
+#bar1 = go.Figure(my_fig)
+#bar1.update_xaxes)tickangle=45)
+#bar1.show()
+
+#+(theme(axis.text.x = element_text(angle = 45, vjust =1, hjust = 1))
+
+```
+
+  Graph 1 includes the total number of charges over the ten years for the five individual locations. I included a bar chart to get a better visual and allow for comparison. Here it can be seen that Richmond Street at Parliament showed the most red light charges in the last ten years, doubling every other intersection. It is followed by Steeles Avenue at Carpenter Road with a difference of over a 1,000 fewer charges. The intersection with the fewest total red light charges was Lake Shore Boulevard at York Street.
+
+# Discussion
+
+  In this paper, I looked at data  concerning the annual number of charges issued to drivers that ran red lights. More specifically, I cleaned the dataset to investigate five different intersections in the City of Toronto across a ten year period. I created a table, namely table 1 in the data section illustrating the annual charges for each location. This allowed a visual aid to illustrate how there is an overall trend of an increase in charges in four out of five intersections. The exception is Albion Road at Silverstone Drive which shows a slight decrease in charges over the ten years however the data on the most recent five years does illustrate a surplus of charges. Additionally, four out of five of the intersections do show an increase in the last five years aside from Richmond Street and Parliament Street. It is interesting that Richmond Street at Parliament Street showed steady levels for the first few years, followed by a large spike in the number of charges and in the recent five years has declined. From the table and graphs, we can take away a general increase in charges; however it is important to note that this depiction is from a small sample of five intersections in different areas in the City of Toronto. 
+
+  This paper was eye opening in that despite a $325 charge for running a red light, many drivers still run lights and in fact there has been an overall increase in drivers who are issued tickets. Although I did not deeply investigate the type of intersection, I think it is an important factor to consider in terms of understanding which intersections drivers are more likely to run a red light. Additionally, there are many other factors that need to be considered when interested in the likelihood of drivers getting charged. It would also be interesting to see data on drivers that are not charged for running red lights. However some data may be hard to come by and or there may not be enough data to make a good analysis.  This dataset however, contained over 300 intersections however only 80 had data for ten consecutive years. I should note that the data only includes drivers that did get charged for running the light and thus there could be data missing for those drivers that did not get charged. 
+
+  I learned that consecutive and consistent data is important to create justifiable assumptions. Moreover, an important aspect of working with data is deciding what is important and picking a focus. One weakness is the number of intersections I looked at. I think it would have been more meaningful in allowing for a larger sample. 
+
+  Future work could look at intersections close to one another to get an idea about which types of intersections drivers are more likely to run red lights. For example, it would be interesting and relevant to pick intersections around the University of Toronto and analyze the number of charges issued. This would impact student safety and thus perhaps the data would show a decrease in charges around the area. However having another area to compare the data to is equally important.  More consistent data is needed  across consecutive periods of time to really ensure correct assumptions are made and portray accurate data. THis also improves others' trust in the data. 
+
+\newpage
+
+
+# References
+
+
